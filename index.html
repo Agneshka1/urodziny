@@ -62,22 +62,24 @@
     }
 
     .flower {
-        position: absolute;
-        font-size: 24px;
-        animation: fall linear infinite;
-        opacity: 0.9;
-    }
+    position: fixed;
+    top: -50px;
+    font-size: 28px;
+    pointer-events: none;
+    animation: fall linear forwards;
+    will-change: transform;
+}
+
 
     @keyframes fall {
     from {
-        top: -10%;
-        transform: rotate(0deg);
+        transform: translateY(-50px) rotate(0deg);
     }
     to {
-        top: 110%;
-        transform: rotate(360deg);
+        transform: translateY(110vh) rotate(360deg);
     }
 }
+
 
     @keyframes fadeIn {
         from { opacity: 0; transform: scale(0.9); }
@@ -110,9 +112,14 @@ function playMusic() {
 
 
 function startSurprise() {
-    playMusic?.();
-    for (let i = 0; i < 60; i++) {
-        setTimeout(createFlower, i * 150);
+    const music = document.getElementById("bgMusic");
+    if (music) {
+        music.volume = 0.6;
+        music.play();
+    }
+
+    for (let i = 0; i < 25; i++) {
+        setTimeout(createFlower, i * 200);
     }
 }
 
@@ -121,14 +128,17 @@ function createFlower() {
     const flower = document.createElement("div");
     flower.className = "flower";
     flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
-    flower.style.left = Math.random() * 100 + "%";
-    flower.style.top = "-10%";
-    flower.style.animationDuration = (5 + Math.random() * 4) + "s";
-    flower.style.fontSize = (26 + Math.random() * 20) + "px";
+    flower.style.left = Math.random() * 100 + "vw";
+    flower.style.animationDuration = (6 + Math.random() * 4) + "s";
+    flower.style.fontSize = (24 + Math.random() * 16) + "px";
+
     document.body.appendChild(flower);
 
-    setTimeout(() => flower.remove(), 10000);
+    flower.addEventListener("animationend", () => {
+        flower.remove();
+    });
 }
+
 
 </script>
 
