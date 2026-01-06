@@ -10,10 +10,12 @@
 <style>
     body {
         margin: 0;
-        height: 100vh;
+        min-height: 100vh;
         background: linear-gradient(135deg, #ffdde1, #ee9ca7);
         font-family: 'Montserrat', sans-serif;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -67,13 +69,15 @@
     }
 
     @keyframes fall {
-        from {
-            transform: translateY(-10vh) rotate(0deg);
-        }
-        to {
-            transform: translateY(110vh) rotate(360deg);
-        }
+    from {
+        top: -10%;
+        transform: rotate(0deg);
     }
+    to {
+        top: 110%;
+        transform: rotate(360deg);
+    }
+}
 
     @keyframes fadeIn {
         from { opacity: 0; transform: scale(0.9); }
@@ -95,26 +99,37 @@
 
 <script>
 const flowers = ["🌸","🌷","🌼","🌺","💐"];
+    
+    let musicOpened = false;
+
+function playMusic() {
+    if (musicOpened) return;
+    window.open("https://www.youtube.com/watch?v=_xJUCsyMQes", "_blank");
+    musicOpened = true;
+}
+
 
 function startSurprise() {
-    for (let i = 0; i < 30; i++) {
-        createFlower();
+    playMusic?.();
+    for (let i = 0; i < 60; i++) {
+        setTimeout(createFlower, i * 150);
     }
 }
 
+
 function createFlower() {
     const flower = document.createElement("div");
-    flower.classList.add("flower");
-    flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-    flower.style.left = Math.random() * 100 + "vw";
-    flower.style.animationDuration = (4 + Math.random() * 4) + "s";
-    flower.style.fontSize = (20 + Math.random() * 20) + "px";
+    flower.className = "flower";
+    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+    flower.style.left = Math.random() * 100 + "%";
+    flower.style.top = "-10%";
+    flower.style.animationDuration = (5 + Math.random() * 4) + "s";
+    flower.style.fontSize = (26 + Math.random() * 20) + "px";
     document.body.appendChild(flower);
 
-    setTimeout(() => {
-        flower.remove();
-    }, 8000);
+    setTimeout(() => flower.remove(), 10000);
 }
+
 </script>
 
 </body>
